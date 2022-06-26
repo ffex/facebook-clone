@@ -17,10 +17,14 @@ export class FacebookGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.authService.userData
+      console.log("SON PASSATO QUI");
+      
+    return true;/*  this.authService.userSession
       .pipe(
         map(user => user !== null),
         tap(value => {
+          console.log("vecchia guardia")
+          console.log(value);
           if (!value) {
             this.router.navigateByUrl('/login').then();
             return value;
@@ -28,7 +32,7 @@ export class FacebookGuard implements CanActivate {
             return value;
           }
         })
-      );
+      );  */
   }
 
 }

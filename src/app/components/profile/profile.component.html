@@ -1,0 +1,40 @@
+<div class="bluebar text-center">
+<h2>{{profile?.name}}</h2>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <mat-card class="image-card">
+                <img alt="bg"
+                    class="bg"
+                    src="{{ profile?.image }}">
+                <mat-card-content>
+                    <div class="border-white-cus">
+                    </div>
+                    <img
+                    alt="avatar"
+                    class="avatar" src="{{ profile?.avatar}}">
+
+                  <span class="card-name"></span>
+                </mat-card-content>
+              </mat-card>
+        </div>
+    </div>
+    <div class="row" style="padding-top:110px">
+        <div class="col-12 border-bottom text-center">
+            <h2>{{profile?.name}}</h2>
+        </div>
+    </div>
+<!--     <div class="row">
+        <div class="col-12">
+            <button type="button" class="btn btn-warning w-50">Follow </button>
+            <button type="button" class="btn btn-secondary"><mat-icon class="icon-display" color="primary">photo_album</mat-icon></button>
+        </div>
+    </div> -->
+    <div class="row border-bottom" >
+        <div class="col-12 text-center">
+            <p>{{profile?.bio}}</p>
+        </div>
+    </div>
+    <!-- posts -->
+</div>

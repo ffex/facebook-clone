@@ -22,8 +22,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subs.push(this.authService.userData.subscribe(data => {
+    this.subs.push(this.authService.userSession.subscribe(data => {
       if (data) {
+        console.log("passo qui?");
         this.router.navigateByUrl('/').then();
       }
     }));

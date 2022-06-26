@@ -3,6 +3,8 @@ import {NgForm} from '@angular/forms';
 import {PostService} from '../../services/post.service';
 import {Subscription} from 'rxjs';
 import {AuthService, UserData} from '../../services/auth.service';
+import { Models } from 'appwrite';
+import { AppwriteService } from 'src/app/services/appwrite.service';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +12,7 @@ import {AuthService, UserData} from '../../services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  //TODO
   images: any[] = [
     'https://images-na.ssl-images-amazon.com/images/I/51DR2KzeGBL._AC_.jpg',
     'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg',
@@ -20,14 +23,20 @@ export class HomeComponent implements OnInit {
   ];
   subs: Subscription[] = [];
   posts: any[] = [];
-  user: UserData;
+  user: Models.User<Models.Preferences>;
 
   constructor(private postService: PostService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private aws:AppwriteService) {
   }
 
   async ngOnInit(): Promise<void> {
-    this.subs.push(this.postService.getAllPosts().subscribe(async (posts) => {
+    this.postService.getAllPosts().then((response)=>{
+      console.log("posts");
+      console.log(response);
+      this.posts=response.documents;
+    });
+    /* this.subs.push(this.postService.getAllPosts().subscribe(async (posts) => {
       this.posts = posts;
       console.log(posts);
     }));
@@ -35,18 +44,23 @@ export class HomeComponent implements OnInit {
     this.subs.push(this.authService.CurrentUser().subscribe(user => {
       this.user = user;
       console.log(user);
-    }));
+    })); */
+    this.authService.getUserPromise().then(user => {
+      this.user=user;
+    })
 
   }
 
   postMessage(form: NgForm): void {
     const {message} = form.value;
+    console.log(this.user);
     this.postService.postMessage(message,
-      `${this.user.firstName} ${this.user.lastName}`,
+      `${this.user.name}`,
       {
-        avatar: this.user.avatar,
-        lastName: this.user.lastName,
-        firstname: this.user.firstName
+        //@ts-ignore
+        avatar: this.user.prefs.avatar,
+/*         lastName: this.user.lastName,
+        firstname: this.user.firstName */
       },
     );
     form.resetForm();
